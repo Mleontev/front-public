@@ -22,6 +22,7 @@ class OrderPage extends Component {
       cart
     } = this.props;
 
+    console.log('OrderPage:render');
     return (
       <VendorLayoutContainer {...layoutProps}
         i18n={i18n}

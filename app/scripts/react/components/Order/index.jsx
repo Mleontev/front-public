@@ -4,6 +4,7 @@ import connectToRedux from '../HoC/connectToRedux';
 import provideTranslations from '../HoC/provideTranslations';
 import { connect } from 'react-redux';
 import Order from './Order';
+import { diff } from 'deep-diff';
 import {
   changeFieldValue,
   initCheckout,
@@ -29,12 +30,18 @@ class OrderContainer extends Component {
     this.selectPayment = this.selectPayment.bind(this);
     this.changeFieldValue = this.changeFieldValue.bind(this);
   }
+  shouldComponentUpdate(nextProps, nextState) {
+    const d = diff(this.props, nextProps);
+    console.log('OrderContainer:shouldComponentUpdate:props', this.props, nextProps, d);
+    return !!d;
+  }
   componentWillMount() {
     const {
       initCheckout,
       initialProps,
     } = this.props;
 
+    console.log('OrderContainer:willMount');
     if (!storeInitialized && canUseDOM()) {
       initCheckout(initialProps);
       storeInitialized = true;
@@ -69,6 +76,8 @@ class OrderContainer extends Component {
       totalCount,
       totalPrice,
     } = this.props;
+
+    console.log('OrderContainer:render', totalCount, totalPrice);
 
     return (
       <Order
@@ -132,6 +141,7 @@ OrderContainer.defaultProps = {
 
 export default provideTranslations(connectToRedux(connect(
   (state, ownProps) => {
+    console.log('Order:index:redux:storeInitialized', storeInitialized);
     const { cart } = storeInitialized
       ? state
       : ({ // TODO: move to store initialization when/if root component created

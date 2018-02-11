@@ -14807,6 +14807,7 @@ var OrderPage = function (_Component) {
           cart = _props.cart;
 
 
+      console.log('OrderPage:render');
       return _react2.default.createElement(
         _VendorLayout2.default,
         (0, _extends3.default)({}, layoutProps, {
@@ -15023,6 +15024,8 @@ var _Order = require('./Order');
 
 var _Order2 = _interopRequireDefault(_Order);
 
+var _deepDiff = require('deep-diff');
+
 var _CartActions = require('../../actions/CartActions');
 
 var _cart = require('../../reducers/cart');
@@ -15054,6 +15057,13 @@ var OrderContainer = function (_Component) {
   }
 
   (0, _createClass3.default)(OrderContainer, [{
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      var d = (0, _deepDiff.diff)(this.props, nextProps);
+      console.log('OrderContainer:shouldComponentUpdate:props', this.props, nextProps, d);
+      return !!d;
+    }
+  }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
       var _props = this.props,
@@ -15061,6 +15071,7 @@ var OrderContainer = function (_Component) {
           initialProps = _props.initialProps;
 
 
+      console.log('OrderContainer:willMount');
       if (!storeInitialized && (0, _dom.canUseDOM)()) {
         initCheckout(initialProps);
         storeInitialized = true;
@@ -15102,6 +15113,8 @@ var OrderContainer = function (_Component) {
           totalCount = _props2.totalCount,
           totalPrice = _props2.totalPrice;
 
+
+      console.log('OrderContainer:render', totalCount, totalPrice);
 
       return _react2.default.createElement(_Order2.default, {
         backUrl: backUrl,
@@ -15164,6 +15177,8 @@ OrderContainer.defaultProps = {
 };
 
 exports.default = (0, _provideTranslations2.default)((0, _connectToRedux2.default)((0, _reactRedux.connect)(function (state, ownProps) {
+  console.log('Order:index:redux:storeInitialized', storeInitialized);
+
   var _ref = storeInitialized ? state : { // TODO: move to store initialization when/if root component created
     cart: (0, _cart.initCheckoutCartStore)(state.cart, (0, _CartActions.initCheckout)(ownProps))
   },
@@ -15237,7 +15252,7 @@ exports.default = (0, _provideTranslations2.default)((0, _connectToRedux2.defaul
 })(OrderContainer)));
 module.exports = exports['default'];
 
-},{"../../actions/CartActions":4,"../../helpers/dom":302,"../../reducers/cart":313,"../../schemas":333,"../HoC/connectToRedux":102,"../HoC/provideTranslations":103,"./Order":131,"babel-runtime/core-js/object/assign":359,"babel-runtime/core-js/object/get-prototype-of":363,"babel-runtime/helpers/classCallCheck":369,"babel-runtime/helpers/createClass":370,"babel-runtime/helpers/inherits":373,"babel-runtime/helpers/possibleConstructorReturn":375,"lodash":"lodash","react":"react","react-redux":"react-redux","timm":"timm"}],135:[function(require,module,exports){
+},{"../../actions/CartActions":4,"../../helpers/dom":302,"../../reducers/cart":313,"../../schemas":333,"../HoC/connectToRedux":102,"../HoC/provideTranslations":103,"./Order":131,"babel-runtime/core-js/object/assign":359,"babel-runtime/core-js/object/get-prototype-of":363,"babel-runtime/helpers/classCallCheck":369,"babel-runtime/helpers/createClass":370,"babel-runtime/helpers/inherits":373,"babel-runtime/helpers/possibleConstructorReturn":375,"deep-diff":"deep-diff","lodash":"lodash","react":"react","react-redux":"react-redux","timm":"timm"}],135:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
